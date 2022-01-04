@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 
 app.get('/lessons',function(request,response,next){
     var filePath = path.join(__dirname,"static",'lessons.txt')
@@ -22,7 +24,7 @@ app.get('/user',function(request,response,next){
             return
         }
         else if(fileInfo.isFile()){
-            response.sendFile(filePath)
+            response.send('{’email’: ’user@email.com’, ’password’:’mypassword’}')
         }
     })
 })
