@@ -10,20 +10,8 @@
 
 <body>
     <p id='response'></p>
-    <button onclick="fetchUser()">Fetch User</button>
     <button onclick="fetchLesson()">Fetch Lesson</button>
     <script>
-        function fetchUser() {
-            fetch('http://localhost:3000/user').then(
-                function(response) {
-                    response.text().then(
-                        function(text){
-                            document.getElementById('response').innerHTML = text
-                        }
-                    )
-                }
-            )
-        }
         function fetchLesson() {
             fetch('http://localhost:3000/lessons').then(
                 function(response) {
