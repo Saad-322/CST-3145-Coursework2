@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fetch Lessons</title>
+        <!-- Load the Vue.js as a JavaScript library -->
+        <script src="https://unpkg.com/vue"></script>
+    </head>
 
 <body>
     <p id='response'></p>
-    <button onclick="fetchLesson()">Fetch Lesson</button>
+    <div id="app">
+        <button @click="displayData()">FETCH</button>
+        <div v-for="lesson in lessons" class="lessonlist">
+            </span><br>
+            <!-- <img v-bind:src="lesson.Image" alt="" width="100px" height="100px"> -->
+            <br>
+            Subject: {{ lesson.Subject }} <br>
+            Location: {{ lesson.Location }} <br>
+            Price: £{{ lesson.Price }} <br>
+            Spaces: {{ lesson.Spaces }} <br>
+            <!-- <span v-for="n in lesson.Rating" class="fas fa-star"></span>
+            <span v-for="n in 5-lesson.Rating" class="far fa-star"></span> <br><br> -->
+            <!-- <button @click="addToCart(lesson)" :disabled="!canAddToCart(lesson)">Add to cart</button> -->
+            <br>
+        </div>
+    </div>
     <script>
-        function fetchLesson() {
-            fetch('http://localhost:3000/lessons').then(
-                function(response) {
-                    response.text().then(
-                        function(text){
-                            document.getElementById('response').innerHTML = text
+        let app = new Vue({
+            el: '#app',
+            data: {
+                lessons: ''
+            },
+            methods: {
+                displayData() {
+                    fetch('http://localhost:3000/lessons').then(
+                        function (response) {
+                            response.json().then(
+                                function (json) {
+                                    app.lessons = json
+                                }
+                            )
                         }
                     )
                 }
-            )
-        }
+            }
+        })
     </script>
 </body>
 
