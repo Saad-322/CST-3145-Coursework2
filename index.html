@@ -6,23 +6,24 @@
         <title>Fetch Lessons</title>
         <!-- Load the Vue.js as a JavaScript library -->
         <script src="https://unpkg.com/vue"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link rel="stylesheet" href="css/styles.css">
     </head>
 
 <body>
     <p id='response'></p>
     <div id="app">
-        <button @click="displayData()">FETCH</button>
+
         <div v-for="lesson in lessons" class="lessonlist">
             </span><br>
-            <!-- <img v-bind:src="lesson.Image" alt="" width="100px" height="100px"> -->
+            <img v-bind:src="lesson.Image" alt="" width="100px" height="100px">
             <br>
             Subject: {{ lesson.Subject }} <br>
             Location: {{ lesson.Location }} <br>
             Price: £{{ lesson.Price }} <br>
             Spaces: {{ lesson.Spaces }} <br>
-            <!-- <span v-for="n in lesson.Rating" class="fas fa-star"></span>
-            <span v-for="n in 5-lesson.Rating" class="far fa-star"></span> <br><br> -->
-            <!-- <button @click="addToCart(lesson)" :disabled="!canAddToCart(lesson)">Add to cart</button> -->
+            <span v-for="n in lesson.Rating" class="fas fa-star"></span>
+            <span v-for="n in 5-lesson.Rating" class="far fa-star"></span> <br><br>
             <br>
         </div>
     </div>
@@ -31,6 +32,9 @@
             el: '#app',
             data: {
                 lessons: ''
+            },
+            mounted:function(){
+                this.displayData() //this method will execute at pageload
             },
             methods: {
                 displayData() {
@@ -43,7 +47,7 @@
                             )
                         }
                     )
-                }
+                },
             }
         })
     </script>
