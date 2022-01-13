@@ -26,7 +26,6 @@ app.get('/user',function(request,response,next){
             return
         }
         else if(fileInfo.isFile()){
-            // response.send('{’email’: ’user@email.com’, ’password’:’mypassword’}')
             response.sendFile(filePath)
         }
     })
