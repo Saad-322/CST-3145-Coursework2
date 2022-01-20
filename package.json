@@ -8,6 +8,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongodb": "^4.3.1",
     "mustache": "^4.2.0"
   }
 }

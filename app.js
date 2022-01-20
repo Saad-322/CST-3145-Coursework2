@@ -4,34 +4,74 @@ const fs = require('fs')
 const cors = require('cors')
 
 let app = express()
+app.use(express.json())
 
-app.use(cors())
+const mongoClient = require('mongodb').MongoClient
 
-app.get('/lessons',function(request,response,next){
-    var filePath = path.join(__dirname,"static",'lessons.txt')
-    fs.stat(filePath,function(err,fileInfo){
-        if(err){
-            next()
-            return
+let db
+mongoClient.connect('mongodb+srv://sa3063:1234@cluster0.mmu69.mongodb.net/lessons_store?retryWrites=true&w=majority', function(err,client){
+    db = client.db('lessons_store')
+})
+
+app.param('collectionName', function(req,res,next,collectionName){
+    req.collection = db.collection(collectionName)
+    console.log(req.url)
+    return next()
+})
+app.get('/collection/:collectionName',function(req,res){
+    res.send('good')
+})
+
+app.post('/collection/:collectionName',function(req,res,next){
+    req.collection.insertOne(req.body,function(e,result){
+        if (e){
+            return next(e)
         }
-        else if(fileInfo.isFile()) response.sendFile(filePath)
+        else{
+            res.send("good")
+        }
     })
 })
 
-app.get('/user',function(request,response,next){
-    var filePath = path.join(__dirname,"static",'users.txt')
-    fs.stat(filePath,function(err,fileInfo){
-        if(err){
-            next()
-            return
+const objectID = require('mongodb').ObjectId
+app.get('/collection/:collectionName/:id',function(req,res,next){
+    req.collection.findOne({_id:objectID(req.params.id)},function(e,result){
+        if (e){
+            return next(e)
         }
-        else if(fileInfo.isFile()){
-            response.sendFile(filePath)
+        else{
+            res.send(result)
         }
     })
 })
-
-app.use(function(request,response){
-    response.send("Error: File not found")
+app.put('/collection/:collectionName/:id',function(req,res,next){
+    req.collection.updateOne(
+        {_id: new objectID(req.params.id)},
+        {$set: req.body},
+        {safe: true, multi:false},
+        function(e,result){
+            if (e){
+                return next(e)
+            }
+            else{
+                res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
+            }
+        }
+    )
 })
-app.listen(3000)
+app.delete('/collection/:collectionName/:id',function(req,res,next){
+    req.collection.deleteOne(
+        {_id: new objectID(req.params.id)},
+        {$set: req.body},
+        {safe: true, multi:false},
+        function(e,result){
+            if (e){
+                return next(e)
+            }
+            else{
+                res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
+            }
+        }
+    )
+})
+app.listen(8080)
