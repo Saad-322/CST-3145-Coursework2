@@ -18,40 +18,51 @@ app.param('collectionName', function(req,res,next,collectionName){
     console.log(req.url)
     return next()
 })
-app.get('/collection/:collectionName',function(req,res){
-    res.send('good')
-})
 
-app.post('/collection/:collectionName',function(req,res,next){
-    req.collection.insertOne(req.body,function(e,result){
-        if (e){
-            return next(e)
+//gets all lessons
+app.get('/collection/:collectionName',function(req,res,next){
+    req.collection.find({}).toArray(function(err,results,next){
+        if (err){
+            return next(err)
         }
         else{
-            res.send("good")
+            res.send(results)
+        }
+    })
+})
+
+//saves new order to the collection
+app.post('/collection/:collectionName',function(req,res,next){
+    req.collection.insert(req.body,function(err,result){
+        if (err){
+            return next(err)
+        }
+        else{
+            res.send("success")
         }
     })
 })
 
 const objectID = require('mongodb').ObjectId
-app.get('/collection/:collectionName/:id',function(req,res,next){
-    req.collection.findOne({_id:objectID(req.params.id)},function(e,result){
-        if (e){
-            return next(e)
-        }
-        else{
-            res.send(result)
-        }
-    })
-})
+
+// app.get('/collection/:collectionName/:id',function(req,res,next){
+//     req.collection.findOne({_id:objectID(req.params.id)},function(err,result){
+//         if (err){
+//             return next(err)
+//         }
+//         else{
+//             res.send(result)
+//         }
+//     })
+// })
 app.put('/collection/:collectionName/:id',function(req,res,next){
     req.collection.updateOne(
         {_id: new objectID(req.params.id)},
         {$set: req.body},
         {safe: true, multi:false},
-        function(e,result){
-            if (e){
-                return next(e)
+        function(err,result){
+            if (err){
+                return next(err)
             }
             else{
                 res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
@@ -64,9 +75,9 @@ app.delete('/collection/:collectionName/:id',function(req,res,next){
         {_id: new objectID(req.params.id)},
         {$set: req.body},
         {safe: true, multi:false},
-        function(e,result){
-            if (e){
-                return next(e)
+        function(err,result){
+            if (err){
+                return next(err)
             }
             else{
                 res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
@@ -74,4 +85,8 @@ app.delete('/collection/:collectionName/:id',function(req,res,next){
         }
     )
 })
-app.listen(8080)
+
+app.use(function(res){
+    res.send("error")
+})
+app.listen(3000)
