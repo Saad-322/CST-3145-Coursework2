@@ -33,7 +33,7 @@ app.get('/collection/:collectionName',function(req,res,next){
 
 //saves new order to the collection
 app.post('/collection/:collectionName',function(req,res,next){
-    req.collection.insert(req.body,function(err,result){
+    req.collection.insertOne(req.body,function(err,result){
         if (err){
             return next(err)
         }
@@ -55,6 +55,8 @@ const objectID = require('mongodb').ObjectId
 //         }
 //     })
 // })
+
+//updates number of spaces after order is submitted
 app.put('/collection/:collectionName/:id',function(req,res,next){
     req.collection.updateOne(
         {_id: new objectID(req.params.id)},
@@ -65,7 +67,12 @@ app.put('/collection/:collectionName/:id',function(req,res,next){
                 return next(err)
             }
             else{
-                res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
+                if(result.acknowledged){
+                    res.send("success")
+                }
+                else{
+                    res.send("error")
+                }
             }
         }
     )
@@ -80,7 +87,7 @@ app.delete('/collection/:collectionName/:id',function(req,res,next){
                 return next(err)
             }
             else{
-                res.send((result.result.n==1) ? {msg: 'success'} : {msg: 'error'})
+                res.send(result)
             }
         }
     )
