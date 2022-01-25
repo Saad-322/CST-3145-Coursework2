@@ -6,6 +6,11 @@ const cors = require('cors')
 let app = express()
 app.use(express.json())
 
+//gets all lessons
+app.get('/',function(req,res){
+    res.send("YOYO")
+})
+
 const mongoClient = require('mongodb').MongoClient
 
 let db
@@ -44,6 +49,7 @@ app.post('/collection/:collectionName',function(req,res,next){
 })
 
 const objectID = require('mongodb').ObjectId
+const { response } = require('express')
 
 // app.get('/collection/:collectionName/:id',function(req,res,next){
 //     req.collection.findOne({_id:objectID(req.params.id)},function(err,result){
