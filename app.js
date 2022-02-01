@@ -7,9 +7,9 @@ let app = express()
 app.use(express.json())
 
 //gets all lessons
-app.get('/',function(req,res){
-    res.send("YOYO")
-})
+// app.get('/',function(req,res){
+//     res.send("YOYO")
+// })
 
 const mongoClient = require('mongodb').MongoClient
 
@@ -99,7 +99,8 @@ app.delete('/collection/:collectionName/:id',function(req,res,next){
     )
 })
 
-app.use(function(res){
+app.use(function(req,res){
     res.send("error")
 })
-app.listen(3000)
+const port = process.env.PORT || 3000
+app.listen(port)
