@@ -72,21 +72,10 @@ app.post('/collection/:collectionName',function(req,res,next){
 const objectID = require('mongodb').ObjectId
 const { response } = require('express')
 
-// app.get('/collection/:collectionName/:id',function(req,res,next){
-//     req.collection.findOne({_id:objectID(req.params.id)},function(err,result){
-//         if (err){
-//             return next(err)
-//         }
-//         else{
-//             res.send(result)
-//         }
-//     })
-// })
-
 //updates number of spaces after order is submitted
-app.put('/collection/:collectionName/:id',function(req,res,next){
+app.put('/collection/:collectionName/:lessonID',function(req,res,next){
     req.collection.updateOne(
-        {_id: new objectID(req.params.id)},
+        {_id: req.params.lessonID},
         {$set: req.body},
         {safe: true, multi:false},
         function(err,result){
