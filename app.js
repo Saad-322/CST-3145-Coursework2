@@ -75,7 +75,7 @@ const { response } = require('express')
 //updates number of spaces after order is submitted
 app.put('/collection/:collectionName/:lessonID',function(req,res,next){
     req.collection.updateOne(
-        {_id: req.params.lessonID},
+        {lessonID: req.params.lessonID},
         {$set: req.body},
         {safe: true, multi:false},
         function(err,result){
