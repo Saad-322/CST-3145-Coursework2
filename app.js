@@ -25,6 +25,11 @@ app.param('collectionName', function(req,res,next,collectionName){
 })
 
 //gets all lessons
+app.get('/',function(req,res,next){
+    res.send("yo yo")
+})
+
+//gets all lessons
 app.get('/collection/:collectionName',function(req,res,next){
     req.collection.find({}).toArray(function(err,results,next){
         if (err){
