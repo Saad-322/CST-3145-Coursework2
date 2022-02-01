@@ -7,11 +7,6 @@ let app = express()
 app.use(express.json())
 app.use(cors())
 
-//gets all lessons
-// app.get('/',function(req,res){
-//     res.send("YOYO")
-// })
-
 const mongoClient = require('mongodb').MongoClient
 
 let db
