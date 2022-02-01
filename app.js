@@ -24,9 +24,29 @@ app.param('collectionName', function(req,res,next,collectionName){
     return next()
 })
 
-//gets all lessons
+//root
 app.get('/',function(req,res,next){
-    res.send("yo yo")
+    res.send("/collection/lessons to view all lessons")
+})
+
+//logger
+app.use(function(req,res,next){
+    console.log("Request ID: "+req.url)
+    console.log("Request Date: "+ new Date())
+    next()
+})
+
+//serve static image files
+app.get('/images/:image',function(req,res,next){
+    let imageName = req.params.image+".jpeg"
+    var filePath = path.join(__dirname,"images",imageName)
+    fs.stat(filePath,function(err,fileInfo){
+        if(err){
+            next()
+            return
+        }
+        else if(fileInfo.isFile()) res.sendFile(filePath)
+    })
 })
 
 //gets all lessons
@@ -104,7 +124,10 @@ app.delete('/collection/:collectionName/:id',function(req,res,next){
     )
 })
 
+//Error handling
 app.use(function(req,res){
+    console.log("Request ID: "+req.url)
+    console.log("Request Date: "+ new Date())
     res.send("error")
 })
 const port = process.env.PORT || 3000
