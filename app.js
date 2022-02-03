@@ -60,9 +60,9 @@ app.get('/collection/:collectionName',function(req,res,next){
 
 //gets searched lessons
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
-    let searchValue = req.params.searchValue
+    let searchString = req.params.searchValue
     req.collection.createIndex( { Subject: "text", Location: "text" } )
-    req.collection.find( { $text: { $search: "london" } } ).toArray(function(err,results,next){
+    req.collection.find( { $text: { $search: searchString } } ).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
