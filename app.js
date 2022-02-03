@@ -69,7 +69,7 @@ app.post('/collection/:collectionName',function(req,res,next){
     })
 })
 let searchValue
-app.post('/collection/search',function(req,res){
+app.post('/search',function(req,res){
     searchValue = req.body
     res.send(searchValue)
 })
