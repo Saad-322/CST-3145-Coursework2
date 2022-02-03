@@ -61,8 +61,8 @@ app.get('/collection/:collectionName',function(req,res,next){
 //gets searched lessons
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
     let searchValue = req.params.searchValue
-    db.collection.createIndex( { Subject: "text", Location: "text" } )
-    db.collection.find( { $text: { $search: searchValue } } ).toArray(function(err,results,next){
+    req.collection.createIndex( { Subject: "text", Location: "text" } )
+    req.collection.find( { $text: { $search: searchValue } } ).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
