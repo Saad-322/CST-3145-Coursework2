@@ -70,12 +70,11 @@ app.post('/collection/:collectionName',function(req,res,next){
 })
 let searchValue
 app.post('/search',function(req,res){
-    searchValue = req.body
-    res.send(searchValue)
+    searchValue = JSON.stringify(req.body.value)
+    console.log(searchValue)
 })
 
 const objectID = require('mongodb').ObjectId
-const { response } = require('express')
 
 //updates number of spaces after order is submitted
 app.put('/collection/:collectionName/:lessonID',function(req,res,next){
