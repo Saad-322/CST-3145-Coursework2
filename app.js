@@ -70,7 +70,8 @@ app.post('/collection/:collectionName',function(req,res,next){
 })
 let searchValue
 app.post('/search',function(req,res){
-    searchValue = JSON.stringify(req.body.value)
+    searchValue = req.body.value
+    res.send(searchValue)
     console.log(searchValue)
 })
 
