@@ -21,7 +21,7 @@ app.param('collectionName', function(req,res,next,collectionName){
 })
 
 //root
-app.get('/',function(req,res,next){
+app.get('/',function(req,res){
     res.send("/collection/lessons to view all lessons")
 })
 
@@ -67,6 +67,11 @@ app.post('/collection/:collectionName',function(req,res,next){
             res.send("success")
         }
     })
+})
+let searchValue
+app.post('/collection/search',function(req,res){
+    searchValue = req.body
+    console.log(searchValue)
 })
 
 const objectID = require('mongodb').ObjectId
