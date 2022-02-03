@@ -63,7 +63,7 @@ app.get('/search/:searchValue/:collectionName',function(req,res,next){
             return next(err)
         }
         else{
-            res.send(results[0])
+            res.send(results)
         }
     })
 })
