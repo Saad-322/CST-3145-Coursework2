@@ -58,12 +58,23 @@ app.get('/collection/:collectionName',function(req,res,next){
 
 //gets searched lessons
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
+    let searchValue = req.params.searchValue
     req.collection.find({}).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
         else{
-            res.send(results[5])
+            for (let i = 0; i < results.length; i++) {
+                let Subject = results[i].Subject.toLowerCase();
+                let Location = results[i].Location.toLowerCase();
+                if (!(Subject.includes(searchValue.toLowerCase()) || Location.toLowerCase().includes(searchValue.toLowerCase()))) {
+                    results[i].Visible = false;
+                }
+                else{
+                    results[i].Visible = true;
+                }
+            }
+            res.send(results)
         }
     })
 })
