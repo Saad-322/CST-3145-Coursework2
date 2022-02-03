@@ -15,6 +15,14 @@ mongoClient.connect('mongodb+srv://sa3063:1234@cluster0.mmu69.mongodb.net/lesson
     db = client.db('lessons_store')
 })
 
+app.use(function(req, res, next) {
+    // allow different IP address
+    res.header("Access-Control-Allow-Origin", "*");
+    // allow different header fields
+    res.header("Access-Control-Allow-Headers", "*");
+    next();
+});
+
 //logger
 app.use(function(req,res,next){
     console.log("Request ID: "+req.url)
