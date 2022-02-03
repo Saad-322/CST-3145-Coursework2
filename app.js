@@ -62,7 +62,7 @@ app.get('/collection/:collectionName',function(req,res,next){
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
     let searchValue = req.params.searchValue
     req.collection.createIndex( { Subject: "text", Location: "text" } )
-    req.collection.find( { $text: { $search: searchValue } } ).toArray(function(err,results,next){
+    req.collection.find( { $text: { $search: "\"maths\"" } } ).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
