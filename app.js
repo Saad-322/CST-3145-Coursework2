@@ -56,6 +56,18 @@ app.get('/collection/:collectionName',function(req,res,next){
     })
 })
 
+//gets searched lessons
+app.get('/search/:searchValue/:collectionName',function(req,res,next){
+    req.collection.find({}).toArray(function(err,results,next){
+        if (err){
+            return next(err)
+        }
+        else{
+            res.send(results[0])
+        }
+    })
+})
+
 //saves new order to the collection
 app.post('/collection/:collectionName',function(req,res,next){
     req.collection.insertOne(req.body,function(err,result){
@@ -69,37 +81,37 @@ app.post('/collection/:collectionName',function(req,res,next){
 })
 
 let searchValue
-app.post('/search',function(req,res){
-    searchValue = JSON.stringify(req.body.value)
-    // change
-    req.collection = db.collection('lessons')
-    req.collection.find({}).toArray(function(err,results,next){
-        if (err){
-            return next(err)
-        }
-        else{
-            for (let i = 0; i < results.length; i++) {
-                let Subject = results[i].Subject.toLowerCase();
-                let Location = results[i].Location.toLowerCase();
-                if (!(Subject.includes(this.searchValue.toLowerCase()) || Location.toLowerCase().includes(this.searchValue.toLowerCase()))) {
-                    req.collection.updateOne(
-                        {lessonID: results[i].lessonID},
-                        {$set: JSON.stringify({'Visible':false})},
-                        {safe: true, multi:false}
-                    )
-                }
-                else{
-                    req.collection.updateOne(
-                        {lessonID: results[i].lessonID},
-                        {$set: JSON.stringify({'Visible':true})},
-                        {safe: true, multi:false}
-                    )
-                }
-            }
-        }
-    })
+// app.post('/search',function(req,res){
+//     searchValue = JSON.stringify(req.body.value)
+//     // change
+//     req.collection = db.collection('lessons')
+//     req.collection.find({}).toArray(function(err,results,next){
+//         if (err){
+//             return next(err)
+//         }
+//         else{
+//             for (let i = 0; i < results.length; i++) {
+//                 let Subject = results[i].Subject.toLowerCase();
+//                 let Location = results[i].Location.toLowerCase();
+//                 if (!(Subject.includes(this.searchValue.toLowerCase()) || Location.toLowerCase().includes(this.searchValue.toLowerCase()))) {
+//                     req.collection.updateOne(
+//                         {lessonID: results[i].lessonID},
+//                         {$set: JSON.stringify({'Visible':false})},
+//                         {safe: true, multi:false}
+//                     )
+//                 }
+//                 else{
+//                     req.collection.updateOne(
+//                         {lessonID: results[i].lessonID},
+//                         {$set: JSON.stringify({'Visible':true})},
+//                         {safe: true, multi:false}
+//                     )
+//                 }
+//             }
+//         }
+//     })
 
-})
+// })
 
 const objectID = require('mongodb').ObjectId
 
