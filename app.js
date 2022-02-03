@@ -62,7 +62,7 @@ app.get('/collection/:collectionName',function(req,res,next){
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
     let searchString = req.params.searchValue
     req.collection.createIndex( { Subject: "text", Location: "text" } )
-    req.collection.find( { $text: { $search: searchString } } ).toArray(function(err,results,next){
+    req.collection.find( { $text: { $regex: searchString,$options: "$i" } } ).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
@@ -70,24 +70,6 @@ app.get('/search/:searchValue/:collectionName',function(req,res,next){
             res.send(results)
         }
     })
-    // req.collection.find({}).toArray(function(err,results,next){
-    //     if (err){
-    //         return next(err)
-    //     }
-    //     else{
-    //         for (let i = 0; i < results.length; i++) {
-    //             let Subject = results[i].Subject.toLowerCase();
-    //             let Location = results[i].Location.toLowerCase();
-    //             if (!(Subject.includes(searchValue.toLowerCase()) || Location.toLowerCase().includes(searchValue.toLowerCase()))) {
-    //                 results[i].Visible = false;
-    //             }
-    //             else{
-    //                 results[i].Visible = true;
-    //             }
-    //         }
-    //         res.send(results)
-    //     }
-    // })
 })
 
 //saves new order to the collection
