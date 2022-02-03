@@ -71,7 +71,7 @@ app.post('/collection/:collectionName',function(req,res,next){
 let searchValue
 app.post('/collection/search',function(req,res){
     searchValue = req.body
-    console.log(searchValue)
+    res.send(searchValue)
 })
 
 const objectID = require('mongodb').ObjectId
