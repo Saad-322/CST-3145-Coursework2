@@ -15,14 +15,6 @@ mongoClient.connect('mongodb+srv://sa3063:1234@cluster0.mmu69.mongodb.net/lesson
     db = client.db('lessons_store')
 })
 
-app.use(function(req, res, next) {
-    // allow different IP address
-    res.header("Access-Control-Allow-Origin", "*");
-    // allow different header fields
-    res.header("Access-Control-Allow-Headers", "*");
-    next();
-});
-
 //logger
 app.use(function(req,res,next){
     console.log("Request ID: "+req.url)
@@ -70,7 +62,7 @@ app.get('/collection/:collectionName',function(req,res,next){
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
     let searchString = req.params.searchValue
     req.collection.createIndex( { Subject: "text", Location: "text" } )
-    req.collection.find( { $text: { $search: searchString, $options: 'i'} } ).toArray(function(err,results,next){
+    req.collection.find( { $text: { $search: searchString} } ).toArray(function(err,results,next){
         if (err){
             return next(err)
         }
