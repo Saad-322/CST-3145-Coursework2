@@ -48,7 +48,7 @@ app.get('/images/:image',function(req,res,next){
 
 //gets all lessons
 app.get('/collection/:collectionName',function(req,res,next){
-    req.collection.find({}).toArray(function(err,results,next){
+    req.collection.find({}).toArray(function(err,results){
         if (err){
             return next(err)
         }
@@ -62,7 +62,7 @@ app.get('/collection/:collectionName',function(req,res,next){
 app.get('/search/:searchValue/:collectionName',function(req,res,next){
     let searchString = req.params.searchValue
     req.collection.createIndex( { Subject: "text", Location: "text" } )
-    req.collection.find( { $text : { $search: "/"+searchString+"/"} } ).toArray(function(err,results,next){
+    req.collection.find( { $or: [ { Subject: { $regex: searchString,$options:'i' } }, { Location: {$regex: searchString,$options:'i'} } ] }  ).toArray(function(err,results){
         if (err){
             return next(err)
         }
